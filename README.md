@@ -27,4 +27,4 @@
 Использованный скрипт находится в папке scripts.
 
 ## Ссылка для просмотра сайта
-https://danitep.github.io/russian-travel/index.html
+https://danitep.github.io/mesto/index.html

@@ -1,0 +1,12 @@
+.popup__save{
+    margin: 14px auto 18px auto;
+    padding: 0;
+    color: #fff;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+@media screen and (max-width:500px) {
+    .popup__save{
+        margin: 14px auto 14px auto;
+    }
+}

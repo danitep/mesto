@@ -10,6 +10,7 @@
     background: url(../../../images/close_icon.svg) no-repeat center;
     background-size: contain;
     transition: opacity  0.3s linear;
+    cursor: pointer
 }
 
 .popup__close:hover{

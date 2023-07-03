@@ -1,7 +1,9 @@
 .profile__add{
     margin: 0;
+    margin-top: -4px;
     padding: 0;
-    background: #000 url(../../../images/add_icon.svg) no-repeat center;
+    background: url(../../../images/add_icon.svg) no-repeat center;
+    background-size: 22px, 22px;
     width: 150px;
     height: 50px;
     border: 2px solid #fff;
@@ -17,7 +19,8 @@
 
 @media screen and (max-width:1000px) {
     .profile__add{
-        margin-top: 36px;
+        margin-top: 32px;
         width:  100%;
+        background-size: 16px, 16px;
     }
 }

@@ -18,76 +18,72 @@
             <div class="profile__info">
               <div class="profile__container">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
-                <button class="profile__edit"></button>
+                <button class="profile__edit" type="button"></button>
               </div>
-              <h2 class="profile__description">Исследователь океана</h2>
+              <p class="profile__description">Исследователь океана</p>
             </div>
           </div>
-          <button class="profile__add"></button>
+          <button class="profile__add" type="button"></button>
         </section>
         <section class="elements" aria-label="Набор фотографий в профиле">
           <ul class="elements__grid">
             <li class="element">
-              <img src="./images/karachaevsk_photo.jpg" alt="Фото загруженное в профиль" class="element__image">
+              <img src="./images/karachaevsk_photo.jpg" alt="Фото развалин близ Карачаевска" class="element__image">
               <div class="element__info">
                 <h2 class="element__title">Карачаевск</h2>
-                <button class="element__like"></button>
+                <button class="element__like" type="button"></button>
               </div>
             </li>
             <li class="element">
-              <img src="./images/elbrus_photo.jpg" alt="Фото загруженное в профиль" class="element__image">
+              <img src="./images/elbrus_photo.jpg" alt="Фото горы Эльбрус на рассвете" class="element__image">
               <div class="element__info">
                 <h2 class="element__title">Гора Эльбрус</h2>
-                <button class="element__like"></button>
+                <button class="element__like" type="button"></button>
               </div>
             </li>
             <li class="element">
-              <img src="./images/dombai_photo.jpg" alt="Фото загруженное в профиль" class="element__image">
+              <img src="./images/dombai_photo.jpg" alt="Фото горных склонов Домбая" class="element__image">
               <div class="element__info">
                 <h2 class="element__title">Домбай</h2>
-                <button class="element__like"></button>
+                <button class="element__like" type="button"></button>
               </div>
             </li>
             <li class="element">
-              <img src="./images/elbrus_photo.jpg" alt="Фото загруженное в профиль" class="element__image">
+              <img src="./images/elbrus_photo.jpg" alt="Фото горы Эльбрус на рассвете" class="element__image">
               <div class="element__info">
                 <h2 class="element__title">Гора Эльбрус</h2>
-                <button class="element__like"></button>
+                <button class="element__like" type="button"></button>
               </div>
             </li>
             <li class="element">
-              <img src="./images/dombai_photo.jpg" alt="Фото загруженное в профиль" class="element__image">
+              <img src="./images/dombai_photo.jpg" alt="Фото горных склонов Домбая" class="element__image">
               <div class="element__info">
                 <h2 class="element__title">Домбай</h2>
-                <button class="element__like"></button>
+                <button class="element__like" type="button"></button>
               </div>
             </li>
             <li class="element">
-              <img src="./images/karachaevsk_photo.jpg" alt="Фото загруженное в профиль" class="element__image">
+              <img src="./images/karachaevsk_photo.jpg" alt="Фото развалин близ Карачаевска" class="element__image">
               <div class="element__info">
                 <h2 class="element__title">Карачаево-Черкесия</h2>
-                <button class="element__like"></button>
+                <button class="element__like" type="button"></button>
               </div>
             </li>
           </ul>
         </section>
-        <section class="popup">
-           <form class="popup__container">
-            <h2 class="popup__title">Редактировать профиль</h2>
-            <input class="popup__field" id="profile__name" name="profile__name"  placeholder="Имя">
-            <div class="popup__line"></div>
-            <input class="popup__field popup__field_second" id="profile__description" name="profile__description" placeholder="О себе">
-            <div class="popup__line"></div>
-            <button class="popup__button">
-              <span class="popup__save">Сохранить</span>
-            </button>
-            <button class="popup__close"></button>
-           </form>
-        </section>
     </main>
     <footer class="footer">
-      <h2 class="footer__text">© 2020 Mesto Russia</h2>
+      <p class="footer__text">© 2020 Mesto Russia</p>
     </footer>
-    <script src="./scripts/script.js"></script>
+    <div class="popup">
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <form class="popup__container" name="редактор профиля">
+       <input class="popup__field" id="profile__name" name="profile__name"  placeholder="Имя">
+       <input class="popup__field" id="profile__description" name="profile__description" placeholder="О себе">
+       <button class="popup__button" type="submit">Сохранить</button>
+       <button class="popup__close" type="button"></button>
+      </form>
+   </div>
+    <script src="./scripts/index.js"></script>
 </body>
 </html>

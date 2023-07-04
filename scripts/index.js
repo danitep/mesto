@@ -1,6 +1,5 @@
 let edit_button = document.querySelector('.profile__edit');
 let close_button = document.querySelector('.popup__close');
-let save_button = document.querySelector('.popup__save');
 let like_buttons = document.querySelectorAll('.element__like');
 let popup=document.querySelector('.popup');
 let profile_name_field = document.querySelector('#profile__name');

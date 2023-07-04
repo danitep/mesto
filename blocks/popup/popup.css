@@ -10,4 +10,7 @@
     display: none;
     justify-content: center;
     align-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

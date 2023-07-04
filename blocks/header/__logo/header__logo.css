@@ -1,6 +1,8 @@
 .header__logo{
     margin: 45px 0 0 0;
     padding: 0;
+    width: 142px;
+    height: 33px;
     padding-bottom: 40px;
     display: flex;
 }
@@ -8,7 +10,8 @@
 @media screen and (max-width:880px) {
     .header__logo{
         margin: 28px auto 0 27px;
-        width: calc(103.74 / 320 * 100%);
-        padding-bottom: calc(31.6 / 320 * 100%);
+        width: 103.74px;
+        height: 24.4px;
+        padding-bottom: 31.6px;
     }
 }

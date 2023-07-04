@@ -1,6 +1,7 @@
 .popup__field{
-    margin: calc(56px + 58px) 36px 0 36px;
+    margin: 53px 36px 0 36px;
     padding: 0 0 10px 0;
+    width: 358px;
     height: 14px;
     border: none;
     border-bottom: rgba(0, 0, 0, 0.2) 1px solid;
@@ -14,7 +15,7 @@
 
 @media screen and (max-width:500px) {
     .popup__field:last-of-type{
-        margin: 30px 22px 0 22px;
+        margin: 33px 22px 0 22px;
     }
 }
 
@@ -23,6 +24,7 @@
 
 @media screen and (max-width:500px) {
     .popup__field{
-        margin: 124px 22px 0 22px;
+        margin: 76px 22px 0 22px;
+        width: 238px;
     }
 }

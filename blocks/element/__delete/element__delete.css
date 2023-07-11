@@ -1,7 +1,7 @@
 .element__delete{
     margin: 20px 20px 0 0;
     padding: 0;
-    background: url(../../../images/trash_icon.svg) no-repeat center; 
+    background: url(../../../images/trash_icon.svg) no-repeat center;
     position: absolute;
     border: none;
     width: 18px;

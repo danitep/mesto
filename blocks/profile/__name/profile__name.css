@@ -15,7 +15,7 @@
         margin-left: 26px;
         font-size: 27px;
         line-height: 33px;
-        max-width: 190px;
+        max-width: calc(190/320*100vw);
         text-align: center;
     }
 }

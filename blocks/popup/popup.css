@@ -6,10 +6,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: none;
     justify-content: center;
-    align-content: space-around;
+    pointer-events: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: visibility 0.5s, opacity 0.5s linear;
 }

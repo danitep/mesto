@@ -1,13 +1,15 @@
-const edit_button = document.querySelector('.profile__edit');
-const add_button = document.querySelector('.profile__add');
-const close_buttons = document.querySelectorAll('.popup__close');
-let profile_name = document.querySelector('.profile__name');
-let profile_description = document.querySelector('.profile__description');
+const editButton = document.querySelector('.profile__edit');
+const addButton = document.querySelector('.profile__add');
+const closeButtons = document.querySelectorAll('.popup__close');
+const profileName = document.querySelector('.profile__name');
+const profileDescription = document.querySelector('.profile__description');
 const forms = document.querySelectorAll('.popup__container');
-let elements = document.querySelector('.elements__grid');
-const image_element = document.querySelector('#image-template').content.querySelector('.element');
+const editForm = document.querySelector('#edit_form');
+const addForm = document.querySelector('#add_form');
+const elements = document.querySelector('.elements__grid');
+const imageElement = document.querySelector('#image-template').content.querySelector('.element');
 
-const initial_cards = [
+const initialCards = [
     {
       name: 'Архыз',
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -33,109 +35,122 @@ const initial_cards = [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
   ];
-initial_cards.forEach(function(card) {
-    let element = image_element.cloneNode(true);
-    let image = element.querySelector('.element__image');
-    let text = element.querySelector('.element__title');
-    let image_name = card.name;
-    let image_source = card.link;
-    image.src = image_source;
-    image.alt = 'Загруженное фото: ' + image_name;
-    text.textContent = image_name;
+initialCards.forEach(function(card) {
+    const element = imageElement.cloneNode(true);
+    const image = element.querySelector('.element__image');
+    const text = element.querySelector('.element__title');
+    const likeButton = element.querySelector('.element__like');
+    const deleteButton = element.querySelector('.element__delete');
+    const imageName = card.name;
+    const imageSource = card.link;
+    image.src = imageSource;
+    image.alt = 'Загруженное фото: ' + imageName;
+    text.textContent = imageName;
     elements.append(element);
+    image.addEventListener('click', showImagePopup);
+    likeButton.addEventListener('click', likeToggle);
+    deleteButton.addEventListener('click', removeCard);
 });
 
-const like_buttons = document.querySelectorAll('.element__like');
-const delete_buttons = document.querySelectorAll('.element__delete');
-const images = document.querySelectorAll('.elements__grid .element__image')
+const likeButtons = document.querySelectorAll('.element__like');
+const deleteButtons = document.querySelectorAll('.element__delete');
 
-forms.forEach(function(form){
-    form.addEventListener('submit', SaveInfo);
+
+
+editForm.addEventListener('submit',saveEditFormInfo);
+addForm.addEventListener('submit', saveAddFormInfo);
+
+closeButtons.forEach(function(closeButton){
+    closeButton.addEventListener('click', closeButtonClick); 
 });
-close_buttons.forEach(function(close_button){
-    close_button.addEventListener('click', ClosePopup); 
-});
-delete_buttons.forEach(function(delete_button){
-    delete_button.addEventListener('click', RemoveCard);
-})
-like_buttons.forEach(function(like_button){
-    like_button.addEventListener('click', Like);
-})
-images.forEach(function(image){
-    image.addEventListener('click', ShowPopup);
-})
-edit_button.addEventListener('click', ShowPopup); 
-add_button.addEventListener('click', ShowPopup);
 
 
-function Like(evt){
+editButton.addEventListener('click', showEditPopup); 
+addButton.addEventListener('click', showAddPopup);
+
+
+function likeToggle(evt){
     evt.target.classList.toggle('element__like_active');
 }
 
-function RemoveCard(evt){
-    evt.target.parentElement.remove();
+function removeCard(evt){
+    evt.target.closest('.element').remove();
 }
 
-function ShowPopup(evt) {
-    let popup_selector = evt.target.classList.value;
-    let popup;
-    if (popup_selector === 'profile__edit'){
-        popup = document.querySelector('#account-change');
-        let fields = popup.querySelectorAll('.popup__field');
-        console.log(fields);
-        fields[0].value = profile_name.textContent;
-        fields[1].value = profile_description.textContent;
-    }
-    else if(popup_selector === 'profile__add'){
-        popup = document.querySelector('#image-load');
-    }
-    else if(popup_selector === 'element__image'){
-        popup = document.querySelector('#image-show');
-        image = popup.querySelector('.popup__image');
-        text = popup.querySelector('.popup__text');
-        image.src = evt.target.src;
-        const name = evt.target.parentElement.querySelector('.element__title').textContent;
-        image.alt = 'Загруженное фото: ' + name;
-        text.textContent = name; 
-    }
-    popup.classList.add('popup_opened');
-    
-} 
 
 
-function ClosePopup(evt) {
+
+function showEditPopup(){
+    const popup = document.querySelector('#account-change');
+    let fields = popup.querySelectorAll('.popup__field');
+    fields[0].value = profileName.textContent;
+    fields[1].value = profileDescription.textContent;
+    openPopup(popup);
+}
+
+function showAddPopup(){
+    const popup = document.querySelector('#image-load');
+    openPopup(popup);
+}
+
+function showImagePopup(evt){
+    const popup = document.querySelector('#image-show');
+    image = popup.querySelector('.popup__image');
+    text = popup.querySelector('.popup__text');
+    image.src = evt.target.src;
+    const name = evt.target.closest('.element').querySelector('.element__title').textContent;
+    image.alt = 'Загруженное фото: ' + name;
+    text.textContent = name; 
+    openPopup(popup);
+}
+
+
+
+function openPopup(popup){
+    popup.classList.add('popup_opened'); 
+}
+
+function closeButtonClick(evt){
     evt.preventDefault();
-    let popup = evt.target.parentElement.parentElement;
+    const popup = evt.target.closest('.popup');
+    closePopup(popup);
+}
+
+function closePopup(popup) {
     popup.classList.remove('popup_opened');
 }
 
 
-function SaveInfo(evt) {
-    evt.preventDefault();
-    const popup = evt.target.parentElement.parentElement;
-    if (popup.id === 'account-change'){
-        const fields = popup.querySelectorAll('.popup__field');
-        profile_name.textContent = fields[0].value;
-        profile_description.textContent = fields[1].value;
-    }
-    else if(popup.id === 'image-load'){
-        let element = image_element.cloneNode(true);
-        const fields = popup.querySelectorAll('.popup__field');
-        let image = element.querySelector('.element__image');
-        let text = element.querySelector('.element__title');
-        const image_name = fields[0].value;
-        const image_source = fields[1].value;
-        image.src = image_source;
-        image.alt = 'Загруженное фото: ' + image_name;
-        text.textContent = image_name;
-        elements.prepend(element);
-        const delete_button = element.querySelector('.element__delete');
-        const like_button = element.querySelector('.element__like');
-        image.addEventListener('click', ShowPopup);
-        delete_button.addEventListener('click', RemoveCard);
-        like_button.addEventListener('click', Like);
-    }
-    ClosePopup(evt);
-}
 
+function saveEditFormInfo(evt){
+    evt.preventDefault();
+    const popup = evt.target.closest('.popup');
+    const fields = popup.querySelectorAll('.popup__field');
+    profileName.textContent = fields[0].value;
+    profileDescription.textContent = fields[1].value;
+    closePopup(popup);
+}
+function saveAddFormInfo(evt){
+    evt.preventDefault();
+    const popup = evt.target.closest('.popup');
+    const element = imageElement.cloneNode(true);
+    const fields = popup.querySelectorAll('.popup__field');
+    const image = element.querySelector('.element__image');
+    const text = element.querySelector('.element__title');
+    const imageName = fields[0].value;
+    const imageSource = fields[1].value;
+    fields.forEach(function(field){
+        field.value = '';
+    });
+    image.src = imageSource;
+    image.alt = 'Загруженное фото: ' + imageName;
+    text.textContent = imageName;
+    elements.prepend(element);
+    const deleteButton = element.querySelector('.element__delete');
+    const likeButton = element.querySelector('.element__like');
+    image.addEventListener('click', showImagePopup);
+    deleteButton.addEventListener('click', removeCard);
+    likeButton.addEventListener('click', likeToggle);
+    closePopup(popup);
+}
 

@@ -1,15 +1,34 @@
+//buttons
 const editButton = document.querySelector('.profile__edit');
 const addButton = document.querySelector('.profile__add');
 const closeButtons = document.querySelectorAll('.popup__close');
-const profileName = document.querySelector('.profile__name');
-const profileDescription = document.querySelector('.profile__description');
-const forms = document.querySelectorAll('.popup__container');
-const editForm = document.querySelector('#edit_form');
-const addForm = document.querySelector('#add_form');
-const elements = document.querySelector('.elements__grid');
-const imageElement = document.querySelector('#image-template').content.querySelector('.element');
 const likeButtons = document.querySelectorAll('.element__like');
 const deleteButtons = document.querySelectorAll('.element__delete');
+
+//profileData
+const profileName = document.querySelector('.profile__name');
+const profileDescription = document.querySelector('.profile__description');
+
+//fields
+const profileNameField = document.querySelector('#profile__name__field');
+const profileDescriptionField = document.querySelector('#profile__description__field');
+const placeNameField = document.querySelector('#place__name__field');
+const placeImageField = document.querySelector('#place__image__field');
+
+//forms
+const editForm = document.querySelector('#edit_form');
+const addForm = document.querySelector('#add_form');
+
+//popups
+const popupAccountChange = document.querySelector('#account-change');
+const popupImageLoad = document.querySelector('#image-load');
+const popupImageShow = document.querySelector('#image-show');
+
+//otherElements
+const elements = document.querySelector('.elements__grid');
+const imageElement = document.querySelector('#image-template').content.querySelector('.element');
+const imageForShow = popupImageShow.querySelector('.popup__image');
+const textForShow = popupImageShow.querySelector('.popup__text');
 const initialCards = [
     {
       name: 'Архыз',
@@ -37,11 +56,10 @@ const initialCards = [
     }
   ];
 
+
+//mainCode
 initialCards.forEach(function(card) {
-    const imageName = card.name;
-    const imageSource = card.link;
-    const element = createCard(imageName, imageSource);
-    elements.append(element);
+    elements.append(createCard(card.name, card.link));
 });
 
 editForm.addEventListener('submit',saveEditFormInfo);
@@ -78,27 +96,21 @@ function removeCard(evt){
 
 
 function showEditPopup(){
-    const popup = document.querySelector('#account-change');
-    let fields = popup.querySelectorAll('.popup__field');
-    fields[0].value = profileName.textContent;
-    fields[1].value = profileDescription.textContent;
-    openPopup(popup);
+    profileNameField.value = profileName.textContent;
+    profileDescriptionField.value = profileDescription.textContent;
+    openPopup(popupAccountChange);
 }
 
 function showAddPopup(){
-    const popup = document.querySelector('#image-load');
-    openPopup(popup);
+    openPopup(popupImageLoad);
 }
 
 function showImagePopup(evt){
-    const popup = document.querySelector('#image-show');
-    image = popup.querySelector('.popup__image');
-    text = popup.querySelector('.popup__text');
-    image.src = evt.target.src;
+    imageForShow.src = evt.target.src;
     const name = evt.target.closest('.element').querySelector('.element__title').textContent;
-    image.alt = 'Загруженное фото: ' + name;
-    text.textContent = name; 
-    openPopup(popup);
+    imageForShow.alt = 'Загруженное фото: ' + name;
+    textForShow.textContent = name; 
+    openPopup(popupImageShow);
 }
 
 
@@ -121,23 +133,17 @@ function closePopup(popup) {
 
 function saveEditFormInfo(evt){
     evt.preventDefault();
-    const popup = evt.target.closest('.popup');
-    const fields = popup.querySelectorAll('.popup__field');
-    profileName.textContent = fields[0].value;
-    profileDescription.textContent = fields[1].value;
-    closePopup(popup);
+    profileName.textContent = profileNameField.value;
+    profileDescription.textContent = profileDescriptionField.value;
+    closePopup(popupAccountChange);
 }
 
 function saveAddFormInfo(evt){
     evt.preventDefault();
-    const popup = evt.target.closest('.popup');
-    const fields = popup.querySelectorAll('.popup__field');
-    const imageName = fields[0].value;
-    const imageSource = fields[1].value;
-    fields.forEach(function(field){
-        field.value = '';
-    });
+    const imageName = placeNameField.value;
+    const imageSource = placeImageField.value;
+    addForm.reset();
     const element = createCard(imageName, imageSource);
     elements.prepend(element);
-    closePopup(popup);
+    closePopup(popupImageLoad);
 }

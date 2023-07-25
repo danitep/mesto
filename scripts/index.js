@@ -23,44 +23,38 @@ const addForm = document.querySelector('#add_form');
 const popupAccountChange = document.querySelector('#account-change');
 const popupImageLoad = document.querySelector('#image-load');
 const popupImageShow = document.querySelector('#image-show');
+const popupList = Array.from(document.querySelectorAll('.popup'));
 
 //otherElements
+const page = document.querySelector('.page');
 const elements = document.querySelector('.elements__grid');
 const imageElement = document.querySelector('#image-template').content.querySelector('.element');
 const imageForShow = popupImageShow.querySelector('.popup__image');
 const textForShow = popupImageShow.querySelector('.popup__text');
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ];
+
 
 
 //mainCode
 initialCards.forEach(function(card) {
     elements.append(createCard(card.name, card.link));
 });
+
+function keyHandler(evt){
+    if (evt.key === "Escape"){
+        const popup = page.querySelector(".popup_opened");
+        closePopup(popup);
+    }
+}
+
+page.addEventListener('keydown', keyHandler)
+
+popupList.forEach(function(popup){
+    popup.addEventListener('click', function(evt){
+        if(evt.target.classList.contains('popup')){
+            closePopup(popup);
+        }
+    })
+})
 
 editForm.addEventListener('submit',saveEditFormInfo);
 addForm.addEventListener('submit', saveAddFormInfo);
@@ -135,6 +129,8 @@ function saveEditFormInfo(evt){
     evt.preventDefault();
     profileName.textContent = profileNameField.value;
     profileDescription.textContent = profileDescriptionField.value;
+    const buttonElement = editForm.querySelector('.popup__button');
+    offButton(selectorList, buttonElement);
     closePopup(popupAccountChange);
 }
 
@@ -145,5 +141,7 @@ function saveAddFormInfo(evt){
     addForm.reset();
     const element = createCard(imageName, imageSource);
     elements.prepend(element);
+    const buttonElement =addForm.querySelector('.popup__button');
+    offButton(selectorList, buttonElement);
     closePopup(popupImageLoad);
 }

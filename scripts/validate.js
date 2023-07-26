@@ -42,8 +42,7 @@ function hasInvalidInput(inputList){
 
 function toggleButtonState(selectorList, inputList, buttonElement){
     if (hasInvalidInput(inputList)){
-        buttonElement.classList.add(selectorList.inactiveButtonClass);
-        buttonElement.setAttribute("disabled", true);
+        offButton(selectorList, buttonElement);
     }
     else{
         buttonElement.classList.remove(selectorList.inactiveButtonClass);

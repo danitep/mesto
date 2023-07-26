@@ -1,7 +1,6 @@
 //buttons
 const editButton = document.querySelector('.profile__edit');
 const addButton = document.querySelector('.profile__add');
-const closeButtons = document.querySelectorAll('.popup__close');
 const likeButtons = document.querySelectorAll('.element__like');
 const deleteButtons = document.querySelectorAll('.element__delete');
 
@@ -26,7 +25,6 @@ const popupImageShow = document.querySelector('#image-show');
 const popupList = Array.from(document.querySelectorAll('.popup'));
 
 //otherElements
-const page = document.querySelector('.page');
 const elements = document.querySelector('.elements__grid');
 const imageElement = document.querySelector('#image-template').content.querySelector('.element');
 const imageForShow = popupImageShow.querySelector('.popup__image');
@@ -41,16 +39,23 @@ initialCards.forEach(function(card) {
 
 function keyHandler(evt){
     if (evt.key === "Escape"){
-        const popup = page.querySelector(".popup_opened");
+        const popup = document.querySelector(".popup_opened");
         closePopup(popup);
     }
 }
 
-page.addEventListener('keydown', keyHandler)
+function enableEscapeListener(){
+    document.addEventListener('keydown', keyHandler)
+}
+function disableEscapeListener(){
+    document.removeEventListener('keydown', keyHandler)
+}
+
+
 
 popupList.forEach(function(popup){
     popup.addEventListener('click', function(evt){
-        if(evt.target.classList.contains('popup')){
+        if(evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')){
             closePopup(popup);
         }
     })
@@ -58,9 +63,7 @@ popupList.forEach(function(popup){
 
 editForm.addEventListener('submit',saveEditFormInfo);
 addForm.addEventListener('submit', saveAddFormInfo);
-closeButtons.forEach(function(closeButton){
-    closeButton.addEventListener('click', closeButtonClick); 
-});
+
 editButton.addEventListener('click', showEditPopup); 
 addButton.addEventListener('click', showAddPopup);
 
@@ -74,7 +77,7 @@ function createCard(imageName, imageSource){
   const image = element.querySelector('.element__image');
   const text = element.querySelector('.element__title');
   image.src = imageSource;
-  image.alt = 'Загруженное фото: ' + imageName;
+  image.alt = `${imageName}`;
   text.textContent = imageName;
   const deleteButton = element.querySelector('.element__delete');
   const likeButton = element.querySelector('.element__like');
@@ -102,7 +105,7 @@ function showAddPopup(){
 function showImagePopup(evt){
     imageForShow.src = evt.target.src;
     const name = evt.target.closest('.element').querySelector('.element__title').textContent;
-    imageForShow.alt = 'Загруженное фото: ' + name;
+    imageForShow.alt = `${name}`;
     textForShow.textContent = name; 
     openPopup(popupImageShow);
 }
@@ -110,17 +113,15 @@ function showImagePopup(evt){
 
 
 function openPopup(popup){
-    popup.classList.add('popup_opened'); 
+    popup.classList.add('popup_opened');
+    enableEscapeListener();
 }
 
-function closeButtonClick(evt){
-    evt.preventDefault();
-    const popup = evt.target.closest('.popup');
-    closePopup(popup);
-}
+
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    disableEscapeListener();
 }
 
 

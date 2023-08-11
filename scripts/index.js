@@ -1,8 +1,6 @@
 //buttons
 const editButton = document.querySelector('.profile__edit');
 const addButton = document.querySelector('.profile__add');
-const likeButtons = document.querySelectorAll('.element__like');
-const deleteButtons = document.querySelectorAll('.element__delete');
 
 //profileData
 const profileName = document.querySelector('.profile__name');
@@ -21,20 +19,38 @@ const addForm = document.querySelector('#add_form');
 //popups
 const popupAccountChange = document.querySelector('#account-change');
 const popupImageLoad = document.querySelector('#image-load');
-const popupImageShow = document.querySelector('#image-show');
 const popupList = Array.from(document.querySelectorAll('.popup'));
 
 //otherElements
 const elements = document.querySelector('.elements__grid');
-const imageElement = document.querySelector('#image-template').content.querySelector('.element');
-const imageForShow = popupImageShow.querySelector('.popup__image');
-const textForShow = popupImageShow.querySelector('.popup__text');
+const templateSelector = '#image-template';
+const selectorList = {
+    formSelector: ".popup__form",
+    inputSelector: ".popup__input",
+    submitButtonSelector: ".popup__button",
+    inactiveButtonClass: "popup__button_disabled",
+    inputErrorClass: "popup__input_type_error",
+    errorClass: "popup__error_visible",
+};
 
+//import
+import Card from './card.js'
+import FormValidator from './validate.js'
 
 
 //mainCode
-initialCards.forEach(function(card) {
-    elements.append(createCard(card.name, card.link));
+const formList = Array.from(
+    document.querySelectorAll(selectorList.formSelector)
+);
+formList.forEach(function (form) {
+    const formElement = new FormValidator(selectorList, form);
+    formElement.enableValidation();
+});
+
+
+initialCards.forEach(function(cardInfo) {
+    const cardElement = new Card(cardInfo, templateSelector);
+    elements.append(cardElement.createCard());
 });
 
 function keyHandler(evt){
@@ -68,30 +84,6 @@ editButton.addEventListener('click', showEditPopup);
 addButton.addEventListener('click', showAddPopup);
 
 
-function likeToggle(evt){
-    evt.target.classList.toggle('element__like_active');
-}
-
-function createCard(imageName, imageSource){
-  const element = imageElement.cloneNode(true);
-  const image = element.querySelector('.element__image');
-  const text = element.querySelector('.element__title');
-  image.src = imageSource;
-  image.alt = `${imageName}`;
-  text.textContent = imageName;
-  const deleteButton = element.querySelector('.element__delete');
-  const likeButton = element.querySelector('.element__like');
-  image.addEventListener('click', showImagePopup);
-  deleteButton.addEventListener('click', removeCard);
-  likeButton.addEventListener('click', likeToggle);
-  return element;
-}
-
-function removeCard(evt){
-    evt.target.closest('.element').remove();
-}
-
-
 function showEditPopup(){
     profileNameField.value = profileName.textContent;
     profileDescriptionField.value = profileDescription.textContent;
@@ -102,36 +94,20 @@ function showAddPopup(){
     openPopup(popupImageLoad);
 }
 
-function showImagePopup(evt){
-    imageForShow.src = evt.target.src;
-    const name = evt.target.closest('.element').querySelector('.element__title').textContent;
-    imageForShow.alt = `${name}`;
-    textForShow.textContent = name; 
-    openPopup(popupImageShow);
-}
-
-
-
-function openPopup(popup){
+export function openPopup(popup){
     popup.classList.add('popup_opened');
     enableEscapeListener();
 }
-
-
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     disableEscapeListener();
 }
 
-
-
 function saveEditFormInfo(evt){
     evt.preventDefault();
     profileName.textContent = profileNameField.value;
     profileDescription.textContent = profileDescriptionField.value;
-    const buttonElement = editForm.querySelector('.popup__button');
-    offButton(selectorList, buttonElement);
     closePopup(popupAccountChange);
 }
 
@@ -140,9 +116,11 @@ function saveAddFormInfo(evt){
     const imageName = placeNameField.value;
     const imageSource = placeImageField.value;
     addForm.reset();
-    const element = createCard(imageName, imageSource);
-    elements.prepend(element);
-    const buttonElement =addForm.querySelector('.popup__button');
-    offButton(selectorList, buttonElement);
+    const cardInfo = {
+        name: imageName,
+        link: imageSource
+    }
+    const cardElement = new Card(cardInfo, templateSelector);
+    elements.prepend(cardElement.createCard());
     closePopup(popupImageLoad);
 }

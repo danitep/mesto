@@ -1,6 +1,11 @@
+//import
+import { openPopup, closePopup} from "../utils/utils.js";
+import Card from './card.js'
+import FormValidator from './FormValidator.js'
+
 //buttons
-const editButton = document.querySelector('.profile__edit');
-const addButton = document.querySelector('.profile__add');
+const buttonOpenEditProfileForm = document.querySelector('.profile__edit');
+const buttonOpenAddCardForm = document.querySelector('.profile__add');
 
 //profileData
 const profileName = document.querySelector('.profile__name');
@@ -13,8 +18,8 @@ const placeNameField = document.querySelector('#place__name__field');
 const placeImageField = document.querySelector('#place__image__field');
 
 //forms
-const editForm = document.querySelector('#edit_form');
-const addForm = document.querySelector('#add_form');
+const formEditProfile = document.querySelector('#edit_form');
+const formAddCard = document.querySelector('#add_form');
 
 //popups
 const popupAccountChange = document.querySelector('#account-change');
@@ -33,41 +38,25 @@ const selectorList = {
     errorClass: "popup__error_visible",
 };
 
-//import
-import Card from './card.js'
-import FormValidator from './validate.js'
-
-
 //mainCode
 const formList = Array.from(
     document.querySelectorAll(selectorList.formSelector)
 );
+
 formList.forEach(function (form) {
     const formElement = new FormValidator(selectorList, form);
     formElement.enableValidation();
 });
 
-
-initialCards.forEach(function(cardInfo) {
+function createCard(cardInfo) {
     const cardElement = new Card(cardInfo, templateSelector);
-    elements.append(cardElement.createCard());
+    return cardElement.createCard();
+    
+}
+
+initialCards.forEach(function(cardInfo){
+    elements.append(createCard(cardInfo));
 });
-
-function keyHandler(evt){
-    if (evt.key === "Escape"){
-        const popup = document.querySelector(".popup_opened");
-        closePopup(popup);
-    }
-}
-
-function enableEscapeListener(){
-    document.addEventListener('keydown', keyHandler)
-}
-function disableEscapeListener(){
-    document.removeEventListener('keydown', keyHandler)
-}
-
-
 
 popupList.forEach(function(popup){
     popup.addEventListener('click', function(evt){
@@ -77,12 +66,10 @@ popupList.forEach(function(popup){
     })
 })
 
-editForm.addEventListener('submit',saveEditFormInfo);
-addForm.addEventListener('submit', saveAddFormInfo);
-
-editButton.addEventListener('click', showEditPopup); 
-addButton.addEventListener('click', showAddPopup);
-
+formEditProfile.addEventListener('submit',saveEditFormInfo);
+formAddCard.addEventListener('submit', saveAddFormInfo);
+buttonOpenEditProfileForm.addEventListener('click', showEditPopup); 
+buttonOpenAddCardForm.addEventListener('click', showAddPopup);
 
 function showEditPopup(){
     profileNameField.value = profileName.textContent;
@@ -92,16 +79,6 @@ function showEditPopup(){
 
 function showAddPopup(){
     openPopup(popupImageLoad);
-}
-
-export function openPopup(popup){
-    popup.classList.add('popup_opened');
-    enableEscapeListener();
-}
-
-function closePopup(popup) {
-    popup.classList.remove('popup_opened');
-    disableEscapeListener();
 }
 
 function saveEditFormInfo(evt){
@@ -115,12 +92,11 @@ function saveAddFormInfo(evt){
     evt.preventDefault();
     const imageName = placeNameField.value;
     const imageSource = placeImageField.value;
-    addForm.reset();
+    formAddCard.reset();
     const cardInfo = {
         name: imageName,
         link: imageSource
     }
-    const cardElement = new Card(cardInfo, templateSelector);
-    elements.prepend(cardElement.createCard());
+    elements.prepend(createCard(cardInfo));
     closePopup(popupImageLoad);
 }

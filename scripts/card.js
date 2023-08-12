@@ -1,9 +1,16 @@
+import { openPopup} from "../utils/utils.js";
+
+const popupImageShow = document.querySelector('#image-show');
+const imageForShow = popupImageShow.querySelector('.popup__image');
+const textForShow = popupImageShow.querySelector('.popup__text');
+
 export default class Card {
     constructor(data, templateSelector) {
         this._name = data.name;
         this._link = data.link;
         this._templateSelector = templateSelector;
     }
+
     _getTemplate() {
         const cardElement = document
             .querySelector(this._templateSelector)
@@ -40,9 +47,7 @@ export default class Card {
     }
     
     _showImagePopup(evt){
-        const popupImageShow = document.querySelector('#image-show');
-        const imageForShow = popupImageShow.querySelector('.popup__image');
-        const textForShow = popupImageShow.querySelector('.popup__text');
+        
         imageForShow.src = evt.target.src;
         const name = evt.target.closest('.element').querySelector('.element__title').textContent;
         imageForShow.alt = `${name}`;
@@ -57,7 +62,5 @@ export default class Card {
     _likeToggle(evt){
         evt.target.classList.toggle('element__like_active');
     }
-
 }
 
-import { openPopup } from "./index.js";

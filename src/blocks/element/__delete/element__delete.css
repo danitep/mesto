@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .element__delete{
     margin: 20px 20px 0 0;
     padding: 0;
@@ -13,4 +14,21 @@
 
 .element__delete:hover{
     opacity: 0.5;
+=======
+.element__delete{
+    margin: 20px 20px 0 0;
+    padding: 0;
+    background: url(../../../images/trash_icon.svg) no-repeat center;
+    position: absolute;
+    border: none;
+    width: 18px;
+    height: 19px;
+    align-self: flex-end;
+    transition: opacity  0.3s linear;
+    cursor: pointer;
+}
+
+.element__delete:hover{
+    opacity: 0.5;
+>>>>>>> 31c43c63a8bce379037f5cb78baf8313db936ddb
 }

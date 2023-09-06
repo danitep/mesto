@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .header{
     margin: 0 auto 0 auto;
     padding: 0;
@@ -9,4 +10,17 @@
     .header{
         width: 100vw;
     }
+=======
+.header{
+    margin: 0 auto 0 auto;
+    padding: 0;
+    width: 880px;
+    border-bottom: 1px solid rgba(84,84,84,0.7);
+}
+
+@media screen and (max-width:880px) {
+    .header{
+        width: 100vw;
+    }
+>>>>>>> 31c43c63a8bce379037f5cb78baf8313db936ddb
 }

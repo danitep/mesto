@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .popup__field-container{
     margin: 0;
     margin-top: 53px;
@@ -20,4 +21,28 @@
     .popup__field-container:last-of-type{
         margin-top: 33px;
     }
+=======
+.popup__field-container{
+    margin: 0;
+    margin-top: 53px;
+    padding: 0;
+    max-height: 44px;
+}
+
+.popup__field-container:last-of-type{
+    margin-top: 13px;
+}
+
+
+
+@media screen and (max-width:500px) {
+    .popup__field-container{
+        margin-top: 76px;
+    }
+}
+@media screen and (max-width:500px) {
+    .popup__field-container:last-of-type{
+        margin-top: 33px;
+    }
+>>>>>>> 31c43c63a8bce379037f5cb78baf8313db936ddb
 }

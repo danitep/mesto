@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .profile__name{
     margin: 0;
     padding: 0;
@@ -18,4 +19,26 @@
         max-width: calc(190/320*100vw);
         text-align: center;
     }
+=======
+.profile__name{
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    font-size: 42px;
+    line-height: 48px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 294px;
+}
+
+@media screen and (max-width:1000px) {
+    .profile__name{
+        margin-left: 26px;
+        font-size: 27px;
+        line-height: 33px;
+        max-width: calc(190/320*100vw);
+        text-align: center;
+    }
+>>>>>>> 31c43c63a8bce379037f5cb78baf8313db936ddb
 }

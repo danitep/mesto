@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .profile__user{
     margin: 0;
     padding: 0;
@@ -9,4 +10,17 @@
     .profile__user{
         flex-direction: column;
     }
+=======
+.profile__user{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+@media screen and (max-width:1000px) {
+    .profile__user{
+        flex-direction: column;
+    }
+>>>>>>> 31c43c63a8bce379037f5cb78baf8313db936ddb
 }

@@ -1,8 +1,3 @@
-import PopupWithImage from "./PopupWithImage.js";
-
-//const popupImageShow = document.querySelector('#image-show');
-
-
 export default class Card {
     constructor({data, handleCardClick}, templateSelector) {
         this._name = data.name;

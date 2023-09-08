@@ -43,8 +43,8 @@ const popupImageLoad = new PopupWithForm('#image-load',{
     }
 });
 popupImageLoad.setEventListeners();
-const PopupForImage = new PopupWithImage('#image-show');
-PopupForImage.setEventListeners();
+const popupForImage = new PopupWithImage('#image-show');
+popupForImage.setEventListeners();
 
 //otherElements
 const templateSelector = '#image-template';
@@ -60,7 +60,7 @@ const selectorList = {
 const popupImageInfo = {
     cardInfo: '',
     templateSelector: templateSelector,
-    popup: PopupForImage
+    popup: popupForImage
 };
 
 //mainCode

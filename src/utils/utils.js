@@ -4,10 +4,10 @@ import PopupWithImage from '../components/PopupWithImage.js';
 export const createCardObject = (popupImageInfo)=>{
     const card = new Card({
         data: popupImageInfo.cardInfo,
-        handleCardClick:(evt)=>{
+        handleCardClick:(name, link)=>{
             const imageInfo = {
-                name: evt.target.closest('.element').querySelector('.element__title').textContent,
-                src: evt.target.src
+                name: name,
+                src: link
             }
             popupImageInfo.popup.open(imageInfo);
         }

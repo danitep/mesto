@@ -41,8 +41,8 @@ export default class Card {
         });
     }
     
-    _showImagePopup(evt){
-        this._handleCardClick(evt);
+    _showImagePopup(){
+        this._handleCardClick(this._name, this._link);
     }
 
     _removeCard(evt){

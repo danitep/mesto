@@ -18,9 +18,9 @@ export default class FormValidator{
                 this._checkInputValidity(inputElement);
                 this._toggleButtonState();
             });
-            this._element.addEventListener("submit", () => {
-                this._offButton();
-            });
+        })
+        this._element.addEventListener("submit", () => {
+            this._offButton();
         });
     }
 
@@ -41,6 +41,7 @@ export default class FormValidator{
     }
 
     _offButton(){
+        console.log('1')
         this._buttonElement.classList.add(this._selectorList.inactiveButtonClass);
         this._buttonElement.setAttribute("disabled", true);
     }

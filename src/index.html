@@ -12,7 +12,10 @@
     <main class="content">
         <section class="profile">
           <div class="profile__user">
-            <img class="profile__avatar" src="<%=require('./images/kusto_photo.jpg')%>" alt="Фото профиля">
+            <div class="profile__avatar-container">
+              <img class="profile__avatar" src="<%=require('./images/kusto_photo.jpg')%>" alt="Фото профиля">
+              <button class="profile__avatar-change"></button>
+            </div>
             <div class="profile__info">
               <div class="profile__container">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -72,7 +75,28 @@
         <img class="popup__image" src="#" alt="">
         <p class="popup__text">some text</p>
       </div>
-      
+    </div>
+    <div class="popup" id="avatar-change">
+      <div class="popup__container">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <button class="popup__close" type="button"></button>
+        <form class="popup__form" id='change_form' name="Изменение аватара">
+          <div class="popup__field-container">
+            <input type="url" class="popup__input" id="avatar__image__field" name="avatar__image" placeholder="Ссылка на картинку" required>
+            <span class="popup__error" id="avatar__image__field-error">errortext</span>
+          </div>
+          <button class="popup__button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup" id="confirm-delete">
+      <div class="popup__container">
+        <h2 class="popup__title">Вы уверены?</h2>
+        <button class="popup__close" type="button"></button>
+        <form class="popup__form" id='confirm_form' name="Подтверждение удаления карточки">
+          <button class="popup__button" type="submit">Да</button>
+        </form>
+      </div>
     </div>
     <template id="image-template">
       <li class="element">
@@ -80,7 +104,10 @@
         <img src="#" alt="" class="element__image">
         <div class="element__info">
           <h2 class="element__title"></h2>
-          <button class="element__like" type="button"></button>
+          <div class="element__container">
+            <button class="element__like" type="button"></button>
+            <p class="element__count">6</p>
+          </div>
         </div>
       </li>
     </template>

@@ -5,10 +5,11 @@
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
+    opacity: 1;
+    transition: opacity  0.3s linear;
 }
 
-@media screen and (max-width:1000px) {
-    .profile__avatar{
-        margin: auto;
-    }
+.profile__avatar-container:hover .profile__avatar{
+    opacity: 0.2;
 }
+

@@ -3,19 +3,23 @@ import './index.css';
 //import
 import FormValidator from '../components/FormValidator.js'
 import Section from '../components/Section.js'
+import Popup from '../components/Popup';
 import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from '../components/UserInfo.js'
-import {initialCards} from '../constants/initialCards.js'
+//import {initialCards} from '../constants/initialCards.js'
 import {createCardObject} from '../utils/utils.js'
 import PopupWithImage from '../components/PopupWithImage';
+import PopupWithConfirmation from '../components/PopupWithConfirmation';
+import Api from '../components/Api';
 
 
 //buttons
 const buttonOpenEditProfileForm = document.querySelector('.profile__edit');
 const buttonOpenAddCardForm = document.querySelector('.profile__add');
+const buttonOpenAvatarChangeForm = document.querySelector('.profile__avatar-change');
 
 //profileData
-const user = new UserInfo('.profile__name', '.profile__description');
+const user = new UserInfo('.profile__name', '.profile__description', '.profile__avatar');
 
 //fields
 const profileNameField = document.querySelector('#profile__name__field');
@@ -26,25 +30,52 @@ const profileDescriptionField = document.querySelector('#profile__description__f
 //popups
 const popupAccountChange = new PopupWithForm('#account-change',{
     callback: (data)=>{
-        user.setUserInfo(data.profile__name, data.profile__description);
+        popupAccountChange.buttonSavingChange();
+        api.redactProfile(data.profile__name, data.profile__description)
+        .then((profileData)=>{
+            user.setUserInfo(profileData.name, profileData.about);
+        })
+        .finally(()=>{
+            popupAccountChange.buttonSavingChange();
+            popupAccountChange.close();
+        })
     }
 });
 popupAccountChange.setEventListeners();
-const popupImageLoad = new PopupWithForm('#image-load',{
-    callback: (data)=>{
-        const cardInfo = {
-            name: data.place__name,
-            link: data.place__image
-        };
-        popupImageInfo.cardInfo = cardInfo;
-        const card = createCardObject(popupImageInfo);
-        const cardElement = card.createCard();
-        cardList.addItem(cardElement);
-    }
-});
-popupImageLoad.setEventListeners();
+
 const popupForImage = new PopupWithImage('#image-show');
 popupForImage.setEventListeners();
+const popupAvatarChange = new PopupWithForm('#avatar-change',{
+    callback: (data)=>{
+        popupAvatarChange.buttonSavingChange();
+        api.changeAvatar(data.avatar__image)
+        .then((profileData)=>{
+            user.setAvatar(profileData.avatar);
+        })
+        .finally(()=>{
+            popupAvatarChange.buttonSavingChange();
+            popupAvatarChange.close();
+        })
+    }
+})
+popupAvatarChange.setEventListeners();
+const popupConfirmDelete = new PopupWithConfirmation('#confirm-delete',{
+    callback: (card)=>{
+        card.removeCard();
+        popupConfirmDelete.buttonSavingChange();
+        api.deleteCard(card.getID())
+        .finally(()=>{
+            popupConfirmDelete.buttonSavingChange();
+            popupConfirmDelete.close();
+        })
+    }
+})
+popupConfirmDelete.setEventListeners();
+
+
+
+
+
 
 //otherElements
 const templateSelector = '#image-template';
@@ -60,7 +91,8 @@ const selectorList = {
 const popupImageInfo = {
     cardInfo: '',
     templateSelector: templateSelector,
-    popup: popupForImage
+    popup: popupForImage,
+    popupConfirm: popupConfirmDelete
 };
 
 //mainCode
@@ -74,24 +106,9 @@ formList.forEach(function (form) {
 });
 
 
-
-const cardList = new Section({
-    items:initialCards, 
-    renderer:(item)=>{
-        popupImageInfo.cardInfo = item;
-        const card = createCardObject(popupImageInfo);
-        const cardElement = card.createCard();
-        cardList.addItem(cardElement);
-    }
-  },
-  cardConteinerSelector
-);
-
-cardList.renderItems();
-
-
 buttonOpenEditProfileForm.addEventListener('click', showEditPopup); 
-buttonOpenAddCardForm.addEventListener('click', showAddPopup);
+buttonOpenAvatarChangeForm.addEventListener('click', showChangePopup)
+
 
 function showEditPopup(){
     const userAbout = user.getUserInfo();
@@ -100,6 +117,73 @@ function showEditPopup(){
     popupAccountChange.open();
 }
 
-function showAddPopup(){
-    popupImageLoad.open();
+
+function showChangePopup(){
+    popupAvatarChange.open();
 }
+
+
+
+
+
+//Api`s
+const api = new Api({
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-75',
+    headers: {
+      authorization: '6c4e8e15-fb16-4272-8358-6586683c02aa',
+      'Content-Type': 'application/json'
+    }
+});
+
+api.getInitialData()
+.then((res)=>{
+    const [resProfile, resCards] = res;
+    user.setInfoFromApi(resProfile.name, resProfile.about, resProfile.avatar);
+    const profileId = resProfile._id;
+    const initialCards = resCards;
+    const cardList = new Section({
+        items:initialCards, 
+        renderer:(item)=>{
+            popupImageInfo.cardInfo = item;
+            const card = createCardObject(popupImageInfo, profileId, api);
+            const cardElement = card.createCard();
+            cardList.addItem(cardElement);
+        }
+      },
+      cardConteinerSelector
+    );
+    
+    cardList.renderItems();
+    const popupImageLoad = new PopupWithForm('#image-load',{
+        callback: (data)=>{
+            const cardInfo = {
+                name: data.place__name,
+                link: data.place__image,
+                likes: []
+            };
+            popupImageInfo.cardInfo = cardInfo;
+            popupImageLoad.buttonSavingChange();
+            api.addNewCard(cardInfo.name, cardInfo.link)
+            .then((cardInfo)=>{
+                popupImageInfo.cardInfo = cardInfo;
+                const card = createCardObject(popupImageInfo, profileId, api);
+                const cardElement = card.createCard();
+                cardList.addItem(cardElement);
+            })
+            .finally(()=>{
+                popupImageLoad.buttonSavingChange();
+                popupImageLoad.close();
+            })           
+        }
+    });
+    popupImageLoad.setEventListeners();
+    return {
+        popupImageLoad: popupImageLoad
+    }
+})
+.then((objects)=>{
+    buttonOpenAddCardForm.addEventListener('click', function (){
+        objects.popupImageLoad.open();
+    });
+})
+

@@ -19,7 +19,7 @@ export default class Popup{
     }
     setEventListeners(){
         const object = this;
-        this._popup.addEventListener('click', function(evt){
+        this._popup.addEventListener('mousedown', function(evt){
             if(evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')){
                 object.close();
             }

@@ -18,11 +18,6 @@ export default class UserInfo{
         this._nameField.textContent = name;
         this._descriptionField.textContent = description;
     }
-    setInfoFromApi(name, description, avatarUrl){
-        this._nameField.textContent = name;
-        this._descriptionField.textContent = description;
-        this._avatar.src = avatarUrl;
-    }
     setAvatar(avatarUrl){
         this._avatar.src = avatarUrl;
     }

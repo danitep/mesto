@@ -2,16 +2,16 @@ export default class FormValidator{
     constructor(selectorList, form){
         this._selectorList = selectorList;
         this._element = form;
+        this._inputList = Array.from(
+            this._element.querySelectorAll(this._selectorList.inputSelector)
+        );
+        this._buttonElement = this._element.querySelector(this._selectorList.submitButtonSelector);
     }
     enableValidation(){
         this._setEventListeners();
     }
 
     _setEventListeners() {
-        this._inputList = Array.from(
-            this._element.querySelectorAll(this._selectorList.inputSelector)
-        );
-        this._buttonElement = this._element.querySelector(this._selectorList.submitButtonSelector);
         this._toggleButtonState();
         this._inputList.forEach((inputElement) => {
             inputElement.addEventListener("input", () => {
@@ -35,15 +35,19 @@ export default class FormValidator{
     }
 
     _hasInvalidInput(){
+        if (this._inputList.length == 0){
+            return false;
+        }
         return this._inputList.some(function(input){
             return !(input.validity.valid);
         });
     }
 
     _offButton(){
-        console.log('1')
-        this._buttonElement.classList.add(this._selectorList.inactiveButtonClass);
-        this._buttonElement.setAttribute("disabled", true);
+        if (this._inputList.length !== 0){
+            this._buttonElement.classList.add(this._selectorList.inactiveButtonClass);
+            this._buttonElement.setAttribute("disabled", true);
+        }
     }
     
     _checkInputValidity(inputElement) {

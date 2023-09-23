@@ -34,10 +34,13 @@ const popupAccountChange = new PopupWithForm('#account-change',{
         api.redactProfile(data.profile__name, data.profile__description)
         .then((profileData)=>{
             user.setUserInfo(profileData.name, profileData.about);
+            popupAccountChange.close();
         })
+        .catch((err) => {
+            console.log(err);
+          })  
         .finally(()=>{
             popupAccountChange.buttonSavingChange();
-            popupAccountChange.close();
         })
     }
 });
@@ -51,22 +54,30 @@ const popupAvatarChange = new PopupWithForm('#avatar-change',{
         api.changeAvatar(data.avatar__image)
         .then((profileData)=>{
             user.setAvatar(profileData.avatar);
+            popupAvatarChange.close();
         })
+        .catch((err) => {
+            console.log(err);
+        })  
         .finally(()=>{
             popupAvatarChange.buttonSavingChange();
-            popupAvatarChange.close();
         })
     }
 })
 popupAvatarChange.setEventListeners();
 const popupConfirmDelete = new PopupWithConfirmation('#confirm-delete',{
     callback: (card)=>{
-        card.removeCard();
         popupConfirmDelete.buttonSavingChange();
         api.deleteCard(card.getID())
+        .then(()=>{
+            card.removeCard();
+            popupConfirmDelete.close();
+        })
+        .catch((err) => {
+            console.log(err);
+        }) 
         .finally(()=>{
             popupConfirmDelete.buttonSavingChange();
-            popupConfirmDelete.close();
         })
     }
 })
@@ -96,6 +107,21 @@ const popupImageInfo = {
 };
 
 //mainCode
+const editForm = document.querySelector('#edit_form');
+const editFormValidator = new FormValidator(selectorList, editForm);
+editFormValidator.enableValidation();
+const addForm = document.querySelector('#add_form');
+const addFormValidator = new FormValidator(selectorList, addForm);
+addFormValidator.enableValidation();
+const changeForm = document.querySelector('#change_form');
+const changeFormValidator = new FormValidator(selectorList, changeForm);
+changeFormValidator.enableValidation();
+const confirmForm = document.querySelector('#confirm_form');
+const confirmFormValidator = new FormValidator(selectorList, confirmForm);
+confirmFormValidator.enableValidation();
+
+
+
 const formList = Array.from(
     document.querySelectorAll(selectorList.formSelector)
 );
@@ -138,7 +164,8 @@ const api = new Api({
 api.getInitialData()
 .then((res)=>{
     const [resProfile, resCards] = res;
-    user.setInfoFromApi(resProfile.name, resProfile.about, resProfile.avatar);
+    user.setUserInfo(resProfile.name, resProfile.about)
+    user.setAvatar(resProfile.avatar)
     const profileId = resProfile._id;
     const initialCards = resCards;
     const cardList = new Section({
@@ -169,10 +196,13 @@ api.getInitialData()
                 const card = createCardObject(popupImageInfo, profileId, api);
                 const cardElement = card.createCard();
                 cardList.addItem(cardElement);
+                popupImageLoad.close();
             })
+            .catch((err) => {
+                console.log(err);
+              })  
             .finally(()=>{
                 popupImageLoad.buttonSavingChange();
-                popupImageLoad.close();
             })           
         }
     });
@@ -186,4 +216,7 @@ api.getInitialData()
         objects.popupImageLoad.open();
     });
 })
+.catch((err) => {
+    console.log(err);
+  })  
 

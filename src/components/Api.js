@@ -3,20 +3,22 @@ export default class Api {
     this._baseUrl = options.baseUrl;
     this._headers = options.headers;
   }
+
+  _getResponseData(res){
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+  } 
   
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res)
     })
-    .catch((err) => {
-      console.log(err);
-    })  
+    
   }
   
   getUserInfo(){
@@ -24,13 +26,7 @@ export default class Api {
       headers: this._headers
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
+      return this._getResponseData(res)
     })   
   }
 
@@ -48,13 +44,7 @@ export default class Api {
       })
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
+      return this._getResponseData(res)
     })
   }
 
@@ -68,13 +58,7 @@ export default class Api {
       })
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
+      return this._getResponseData(res)
     })
   }
 
@@ -82,9 +66,6 @@ export default class Api {
     return fetch(`${this._baseUrl}/cards/${id}`, {
       method: 'DELETE',
       headers: this._headers
-    })
-    .catch((err) => {
-      console.log(err);
     })
   }
 
@@ -94,13 +75,7 @@ export default class Api {
       headers: this._headers
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
+      return this._getResponseData(res)
     })
   }
 
@@ -110,13 +85,7 @@ export default class Api {
       headers: this._headers
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
+      return this._getResponseData(res)
     })
   }
 
@@ -129,13 +98,7 @@ export default class Api {
       })
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
+      return this._getResponseData(res)
     })
   }
   // другие методы работы с API

@@ -75,9 +75,8 @@ export default class Card {
     }
 
     _likeToggle(evt){
-        evt.target.classList.toggle('element__like_active');
+        this._handleLikeClick(this._isLiked, this._cardId, evt);
         this._isLiked = !this._isLiked;
-        this._handleLikeClick(this._isLiked, this._cardId);
     }
 
     setLikeCount(count){

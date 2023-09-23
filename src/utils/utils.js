@@ -10,18 +10,26 @@ export const createCardObject = (popupImageInfo, profileId, api)=>{
             }
             popupImageInfo.popup.open(imageInfo);
         },
-        handleLikeClick:(isLiked, cardId)=>{
-            if(isLiked){
+        handleLikeClick:(isLiked, cardId, evt)=>{
+            if(!isLiked){
                 api.setLike(cardId)
                 .then((data)=>{
+                    evt.target.classList.toggle('element__like_active');
                     card.setLikeCount(data.likes.length)
                 })
+                .catch((err) => {
+                    console.log(err);
+                })  
             }
             else{
                 api.deleteLike(cardId)
                 .then((data)=>{
+                    evt.target.classList.toggle('element__like_active');
                     card.setLikeCount(data.likes.length)
                 })
+                .catch((err) => {
+                    console.log(err);
+                }) 
             }
         },
         popupConfirm: popupImageInfo.popupConfirm,

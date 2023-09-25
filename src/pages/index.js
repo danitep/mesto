@@ -122,14 +122,6 @@ confirmFormValidator.enableValidation();
 
 
 
-const formList = Array.from(
-    document.querySelectorAll(selectorList.formSelector)
-);
-
-formList.forEach(function (form) {
-    const formElement = new FormValidator(selectorList, form);
-    formElement.enableValidation();
-});
 
 
 buttonOpenEditProfileForm.addEventListener('click', showEditPopup); 
